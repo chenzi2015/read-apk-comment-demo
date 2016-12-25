@@ -3,8 +3,10 @@ package net.chenzi.readapkcommentdemo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import java.io.IOException;
-import java.util.zip.ZipFile;
+import net.chenzi.readapkcommentdemo.lib.ZipStream;
+
+import java.io.File;
+import java.io.RandomAccessFile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,10 +21,13 @@ public class MainActivity extends AppCompatActivity {
 
         //red apk comment
         try {
-            ZipFile zip = new ZipFile(path);
-            String comment = zip.getComment();
-            System.out.println("zip comment = " + comment);
-        } catch (IOException e) {
+            File file = new File(path);
+            RandomAccessFile apkFile = new RandomAccessFile(file,"r");
+            ZipStream zipStream = new ZipStream(apkFile);
+            String commnet = zipStream.getComment();
+
+            System.out.println("zip comment = " + commnet);
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
 
